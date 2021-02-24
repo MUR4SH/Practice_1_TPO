@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Testing programs</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <style>
+        #inp_number{
+            width: 130px;
+            padding: 5px;
+            background-color: white;
+            border-radius: 3px;
+            border: none;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        #numbers_num{
+            margin-bottom: 10px;
+            position: relative;
+            top: -27px;
+            left: 145px;
+        }
+        #inp_submit{
+            cursor:pointer;
+            position: relative;
+            top: -27px;
+            width: 140px;
+            height: 40px;
+            background-color: white;
+            color:black;
+            border-radius: 3px;
+            border: 1px solid black;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        #inp_submit:hover, #inp_submit:disabled{
+            background-color: black;
+            border:1px solid white;
+            color:white;
+        }
+        #answers_box{
+            display: flex;
+            position: relative;
+            flex-direction: column;
+            top: -25px;
+            font-size: 25px;
+            width: 186px;
+        }
+        #numbers_box{
+            width: 70px;
+            height: 180px;
+            display: block;
+            position: relative;
+            left: 25px;
+            text-align: center;
+            border: 1px solid white;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        #reload{
+            position: relative;
+            left: 60px;
+            height: 40px;
+            background-color: white;
+            border-radius: 3px;
+            border: none;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            border:1px solid black;
+            color:black;
+        }
+        #reload:hover{
+            background-color: black;
+            border:1px solid white;
+            color:white;
+        }
+        #var_info{
+            display: block;
+            font-size:18px;
+            width: 360px;
+            color:white;
+            margin-bottom:15px;
+        }
+    </style>
+</head>
+<body style="background: rgb(0, 0, 0);">
+    <span id='var_info'>Вариант 3: Ввести массив из 10 целых положительных четырехзначных целых
+        чисел. Вывести количество чисел массива, в которых максимальная цифра
+        равна 7 и среднее арифметическое цифр этих чисел меньше 7. Если таких
+        элементов нет, то выдать сообщение об этом.
+    </span>
+    <div style="background: rgb(0, 0, 0); font-weight:bold; color:white; display:flex; flex-direction:row;">
+        <div style='display:flex; flex-direction:column;'>
+            <input id='inp_number' type='text' title='Поле для ввода 4х значного, положительного числа' oninput = 'number_input()'/>
+            <span id='numbers_num' title='Сколько чисел уже ввели из 10'>0/10</span>
+            <input id='inp_submit' type='submit' value="Подтвердить" title='Добавить выбранное число в список чисел' onclick='submit_number()'/>
+            <div id='answers_box' style='display:flex; flex-direction:column;'></div>
+        </div>
+    </div>
+</body>
+<script>
+let arr=[]; //Массив
+
+/*
+Ф-я проверяет подходит ли число под условие
+*/
+function is_answer(num){
+    let max=-1;
+    let mid=0;
+    for(let i=0;i<num.length;i++){
+        mid+=Number(num[i]);
+        max<Number(num[i])?max=Number(num[i]):0;
+    }
+    if(max == 7 && (mid/4)<7){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+/*
+Проходит по всем эл-там массива, ищет ответ и пишет его
+*/
+function find_answer(){
+    if(arr.length < 10){ return; }
+    let answers = 0;
+    arr.forEach((element)=>{
+        is_answer(element)?answers++:0;
+    })
+    document.getElementById('answers_box').innerText = answers?'Ответ: '+answers:'Таких чисел нет';
+}
+
+/*
+Проверяет вводимые символы
+*/
+function number_input() {
+    if(arr.length>=10){ 
+        console.log('array is full');
+        document.getElementById('inp_number').value = null; 
+    }
+    let number = document.getElementById('inp_number').value;
+    if(number[0] == 0){
+        document.getElementById('inp_number').value = 0;
+        return;
+    }else if(number[0] == '-' || number[0] == '+'){
+        document.getElementById('inp_number').value = null;
+        return;
+    }
+    if(number[number.length-1] == '.' || number[number.length-1] == ','){
+        document.getElementById('inp_number').value = number.substr(0,number.length-1);
+    }
+    if(number.length>4){
+        document.getElementById('inp_number').value = number.substr(0,4);
+    }
+    if(Number(number) != number){
+        document.getElementById('inp_number').value = number.substr(0,number.length-1);
+    }
+}
+
+/*Подтведить ввод*/
+function submit_number() {
+    if(arr.length>=10){ 
+        return; 
+    }
+    let number = document.getElementById('inp_number').value;
+    document.getElementById('inp_number').value = null;
+    if(Number(number) == number && Number.isInteger(Number(number)) && Number(number)>0 && number.length==4){
+        document.getElementById('inp_number').style='border:none;'
+        arr.push(number);
+    }else{
+        document.getElementById('inp_number').style='border:2px solid red;'
+        return;
+    }
+    document.getElementById('numbers_num').innerText = arr.length+'/10';
+    if(arr.length>=10){
+        document.getElementById('inp_number').disabled = true
+        document.getElementById('inp_submit').disabled = true
+        find_answer();
+    }
+}
+</script>
+</html>
