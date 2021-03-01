@@ -4,6 +4,7 @@ let arr=[]; //Массив
 Ф-я проверяет подходит ли число под условие
 */
 function is_answer(num){
+    num = String(num)
     let max=-1;
     let mid=0;
     for(let i=0;i<num.length;i++){
