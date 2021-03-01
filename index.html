@@ -91,92 +91,13 @@
     </span>
     <div style="background: rgb(0, 0, 0); font-weight:bold; color:white; display:flex; flex-direction:row;">
         <div style='display:flex; flex-direction:column;'>
-            <input id='inp_number' type='text' title='Поле для ввода 4х значного, положительного числа' oninput = 'number_input()'/>
+            <input id='inp_number' type='text' title='Поле для ввода 4х значного, положительного числа' oninput = 'number_input(this)'/>
             <span id='numbers_num' title='Сколько чисел уже ввели из 10'>0/10</span>
             <input id='inp_submit' type='submit' value="Подтвердить" title='Добавить выбранное число в список чисел' onclick='submit_number()'/>
             <div id='answers_box' style='display:flex; flex-direction:column;'></div>
         </div>
     </div>
 </body>
-<script>
-let arr=[]; //Массив
-
-/*
-Ф-я проверяет подходит ли число под условие
-*/
-function is_answer(num){
-    let max=-1;
-    let mid=0;
-    for(let i=0;i<num.length;i++){
-        mid+=Number(num[i]);
-        max<Number(num[i])?max=Number(num[i]):0;
-    }
-    if(max == 7 && (mid/4)<7){
-        return true;
-    }else{
-        return false;
-    }
-}
-
-/*
-Проходит по всем эл-там массива, ищет ответ и пишет его
-*/
-function find_answer(){
-    if(arr.length < 10){ return; }
-    let answers = 0;
-    arr.forEach((element)=>{
-        is_answer(element)?answers++:0;
-    })
-    document.getElementById('answers_box').innerText = answers?'Ответ: '+answers:'Таких чисел нет';
-}
-
-/*
-Проверяет вводимые символы
-*/
-function number_input() {
-    if(arr.length>=10){ 
-        console.log('array is full');
-        document.getElementById('inp_number').value = null; 
-    }
-    let number = document.getElementById('inp_number').value;
-    if(number[0] == 0){
-        document.getElementById('inp_number').value = 0;
-        return;
-    }else if(number[0] == '-' || number[0] == '+'){
-        document.getElementById('inp_number').value = null;
-        return;
-    }
-    if(number[number.length-1] == '.' || number[number.length-1] == ','){
-        document.getElementById('inp_number').value = number.substr(0,number.length-1);
-    }
-    if(number.length>4){
-        document.getElementById('inp_number').value = number.substr(0,4);
-    }
-    if(Number(number) != number){
-        document.getElementById('inp_number').value = number.substr(0,number.length-1);
-    }
-}
-
-/*Подтведить ввод*/
-function submit_number() {
-    if(arr.length>=10){ 
-        return; 
-    }
-    let number = document.getElementById('inp_number').value;
-    document.getElementById('inp_number').value = null;
-    if(Number(number) == number && Number.isInteger(Number(number)) && Number(number)>0 && number.length==4){
-        document.getElementById('inp_number').style='border:none;'
-        arr.push(number);
-    }else{
-        document.getElementById('inp_number').style='border:2px solid red;'
-        return;
-    }
-    document.getElementById('numbers_num').innerText = arr.length+'/10';
-    if(arr.length>=10){
-        document.getElementById('inp_number').disabled = true
-        document.getElementById('inp_submit').disabled = true
-        find_answer();
-    }
-}
+<script src='script.js'>
 </script>
 </html>
