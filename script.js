@@ -45,7 +45,10 @@ function number_input(elem) {
     }
 
     let number = elem.value;
-
+    if(number[0] == ' '){
+        elem.value = null;
+        return;
+    }
     if(Number(number[0]) == 0){
         elem.value = 0;
         return;
