@@ -10,6 +10,9 @@ function is_answer(num){
         mid+=Number(num[i]);
         max<Number(num[i])?max=Number(num[i]):0;
     }
+    if(num[0] == '0' || num.length<4 || num.length>4){
+        return false;
+    }
     if(max == 7 && (mid/4)<7){
         return true;
     }else{
