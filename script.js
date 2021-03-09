@@ -81,25 +81,27 @@ function cur_length(array){
 Функция проверки введенного числа
 */
 function submit_number() {
-    let elem = document.getElementById('inp_number');
-    if(arr.length>=10 || !elem){ 
-        return; 
-    }
+    let elem = document.getElementById('inp_number'); 
+    if(arr.length>=10 || !elem) return; 
 
-    let number = elem.value;
-
-    if(Number(number) == number && Number.isInteger(Number(number)) && Number(number)>0 && number.length==4){
+    if(check_num(elem.value)){
+        arr.push(elem.value);
         elem.style='border:none;'
-        arr.push(number);
         elem.value = null;
     }else{
         elem.style='border:2px solid red;'
         return;
     }
+    cur_length(arr);
 
-    cur_length(arr)
+    if(arr.length>=10) find_answer();
+}
 
-    if(arr.length>=10){
-        find_answer();
+//Проверяет число и возвращает t/f при прохождении условий
+function check_num(number){
+    if(Number(number) == number && Number.isInteger(Number(number)) && Number(number)>0 && number.length==4){
+        return true;
+    }else{
+        return false;
     }
 }
