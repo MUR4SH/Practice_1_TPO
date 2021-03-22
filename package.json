@@ -5,9 +5,12 @@
   "description": "My Electron app",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "test": "qunit",
+    "start": "electron .",
+    "build": "electron-packager . myApp --platform=win32 --arch=x64 --app-version=0.1.0 --out=dist --ignore=dist --prune"
   },
   "devDependencies": {
-    "electron": "^11.2.3"
+    "electron": "^11.2.3",
+    "qunit": "^2.14.1"
   }
 }

@@ -91,13 +91,30 @@
     </span>
     <div style="background: rgb(0, 0, 0); font-weight:bold; color:white; display:flex; flex-direction:row;">
         <div style='display:flex; flex-direction:column;'>
-            <input id='inp_number' type='text' title='Поле для ввода 4х значного, положительного числа' oninput = 'number_input(this)'/>
+            <input id='inp_number' type='text' title='Поле для ввода 4х значного, положительного числа'/>
             <span id='numbers_num' title='Сколько чисел уже ввели из 10'>0/10</span>
-            <input id='inp_submit' type='submit' value="Подтвердить" title='Добавить выбранное число в список чисел' onclick='submit_number()'/>
+            <input id='inp_submit' type='submit' value="Подтвердить" title='Добавить выбранное число в список чисел' disabled/>
             <div id='answers_box' style='display:flex; flex-direction:column;'></div>
         </div>
     </div>
 </body>
-<script src='script.js'>
+<script src='script.js'></script>
+<script>
+    let app_js = new application()
+
+    function arr_length(arr){
+        if(document.getElementById('numbers_num')){
+            document.getElementById('numbers_num').innerText = arr.length+'/10'
+        }
+    }
+
+    document.getElementById('inp_submit').addEventListener('click', e=>{
+        app_js.submit_number(document.getElementById('inp_number'))
+        document.getElementById('inp_submit').disabled = true;
+        arr_length(app_js.arr)
+    });
+    document.getElementById('inp_number').addEventListener('input', e => {
+        app_js.number_input(document.getElementById('inp_number'))?document.getElementById('inp_submit').disabled = false:document.getElementById('inp_submit').disabled = true;
+    });
 </script>
 </html>
