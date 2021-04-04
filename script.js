@@ -24,13 +24,20 @@ class application {
         }
     }
 
+    /*Вывести ответ*/
     answer_fill(answers){
-        if(document.getElementById('answers_box')){
-            document.getElementById('answers_box').innerText = answers?'Ответ: '+answers:'Нужных чисел нет';
-        }else{
+        let check = false
+        try{
+            if(document.getElementById('answers_box')){
+                document.getElementById('answers_box').innerText = answers?'Ответ: '+answers:'Нужных чисел нет';
+                check = true;
+            }else{
+                console.log(answers?'Ответ: '+answers:'Нужных чисел нет');
+            }
+        }catch(err){
             console.log(answers?'Ответ: '+answers:'Нужных чисел нет');
         }
-        return answers;
+        return check
     }
 
     /*
@@ -46,9 +53,12 @@ class application {
         return answers;
     }
 
+    /*
+    Объединяет функции поиска ответа и вывода ответа
+    */
     find_fill_answers(array){
         let answers = this.find_answer(array)
-        this.answer_fill(answers)
+        return this.answer_fill(answers)
     }
 
     /*
@@ -56,39 +66,38 @@ class application {
     Функция проверки вводимых символов
     */
     number_input(elem) {
-        if(this.arr.length>=10){ 
-            elem.value = null; 
-            return false;
+        let check = true
+        if(!elem.value){return false}
+        while(check){
+            check = false
+            let number = String(elem.value);
+            if(Number(number[0]) == 0 && number.length>1 && number[0]!=' '){
+                elem.value = '0';
+                number = '0';
+                check = true
+            }
+            let num='';
+            for(let i=0;i<number.length;i++){
+                if(number[i] != '.' && number[i] != ',' && number[i] != '-' && number[i] != '+' && number[i] != ' ' && Number(number[i]) == number[i]){
+                    num+=number[i]
+                }
+            }
+            number = num
+            check = false
+            if(number.length>4){
+                number = number.substring(0,4);
+                check = true
+            }
+            elem.value = number
         }
-
-        let number = elem.value;
-        if(number[0] == ' '){
-            elem.value = null;
-        }
-        if(Number(number[0]) == 0){
-            elem.value = 0;
-        }else if(number[0] == '-' || number[0] == '+'){
-            elem.value = null;
-        }
-
-        if(number.length>4){
-            elem.value = number.substr(0,4);
-        }
-        if(Number(number) != number || number[number.length-1] == '.' || number[number.length-1] == ','){
-            elem.value = number.substr(0,number.length-1);
-        }
-        if(number.length >= 4){
-            return true;
-        }else{
-            return false;
-        }
+        return elem
     }
 
     /*Подтведить ввод
     Функция проверки введенного числа
     */
     submit_number(elem) {
-        if(this.arr.length>=10 || !elem) return false; 
+        if(this.arr.length>=10 || !elem) return this.arr.length; 
 
         if(this.check_num(elem.value)){
             this.arr.push(elem.value);
@@ -96,14 +105,13 @@ class application {
             elem.value = null;
         }else{
             elem.value?elem.style='border:2px solid red;':0
-            return false;
         }
 
         if(this.arr.length>=10){
             this.find_fill_answers(this.arr);
             elem.disabled = true;
         }
-        return true
+        return this.arr.length
     }
 
     //Проверяет число и возвращает t/f при прохождении условий

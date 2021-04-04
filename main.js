@@ -5,12 +5,15 @@ function createWindow () {
       width: 390,
       height: 450,
       webPreferences: {
-        nodeIntegration: true
+        devTools: false,
+        nodeIntegration: true,
+        enableRemoteModule: true,
       }
     })
   
     win.loadFile('index.html')
     win.setResizable(false);
+    win.setMenu(null)
 }
 
 app.whenReady().then(createWindow)

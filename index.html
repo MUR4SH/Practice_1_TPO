@@ -84,16 +84,12 @@
     </style>
 </head>
 <body style="background: rgb(0, 0, 0);">
-    <span id='var_info'>Вариант 3: Ввести массив из 10 целых положительных четырехзначных целых
-        чисел. Вывести количество чисел массива, в которых максимальная цифра
-        равна 7 и среднее арифметическое цифр этих чисел меньше 7. Если таких
-        элементов нет, то выдать сообщение об этом.
-    </span>
+    <span id='var_info'></span>
     <div style="background: rgb(0, 0, 0); font-weight:bold; color:white; display:flex; flex-direction:row;">
         <div style='display:flex; flex-direction:column;'>
             <input id='inp_number' type='text' title='Поле для ввода 4х значного, положительного числа'/>
             <span id='numbers_num' title='Сколько чисел уже ввели из 10'>0/10</span>
-            <input id='inp_submit' type='submit' value="Подтвердить" title='Добавить выбранное число в список чисел' disabled/>
+            <input id='inp_submit' type='submit' value="Подтвердить" title='Добавить выбранное число в список чисел'/>
             <div id='answers_box' style='display:flex; flex-direction:column;'></div>
         </div>
     </div>
@@ -101,6 +97,10 @@
 <script src='script.js'></script>
 <script>
     let app_js = new application()
+    document.getElementById('var_info').innerText = `Вариант 3: Ввести массив из 10 целых положительных четырехзначных целых
+    чисел. Вывести количество чисел массива, в которых максимальная цифра
+    равна 7 и среднее арифметическое цифр этих чисел меньше 7. Если таких
+    элементов нет, то выдать сообщение об этом.`
 
     function arr_length(arr){
         if(document.getElementById('numbers_num')){
@@ -110,11 +110,10 @@
 
     document.getElementById('inp_submit').addEventListener('click', e=>{
         app_js.submit_number(document.getElementById('inp_number'))
-        document.getElementById('inp_submit').disabled = true;
         arr_length(app_js.arr)
     });
     document.getElementById('inp_number').addEventListener('input', e => {
-        app_js.number_input(document.getElementById('inp_number'))?document.getElementById('inp_submit').disabled = false:document.getElementById('inp_submit').disabled = true;
+        app_js.number_input(document.getElementById('inp_number'))
     });
 </script>
 </html>

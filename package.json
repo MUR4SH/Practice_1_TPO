@@ -5,12 +5,21 @@
   "description": "My Electron app",
   "main": "main.js",
   "scripts": {
+    "test_system": "mocha \"./spec_test/spec_test.js\"",
     "test": "qunit",
     "start": "electron .",
     "build": "electron-packager . myApp --platform=win32 --arch=x64 --app-version=0.1.0 --out=dist --ignore=dist --prune"
   },
   "devDependencies": {
     "electron": "^11.2.3",
-    "qunit": "^2.14.1"
+    "qunit": "^2.14.1",
+    "spectron": "^13.0.0"
+  },
+  "dependencies": {
+    "-": "^0.0.1",
+    "assert": "^2.0.0",
+    "cypress": "^6.8.0",
+    "mocha": "^8.3.2",
+    "path": "^0.12.7"
   }
 }
